@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>whoseeme</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>whoseeme</h1>
+    <p class="tagline">See what a stranger could link to you.</p>
+  </header>
+
+  <main>
+    <section id="start">
+      <form id="start-form">
+        <label for="handles">Your usernames</label>
+        <input id="handles" name="handles" autocomplete="off" spellcheck="false"
+               placeholder="e.g. arxhr007, aaron.t" required>
+        <p class="hint">Separate several with commas. Up to five.</p>
+
+        <label for="email">Email <span class="optional">(optional)</span></label>
+        <input id="email" name="email" type="email" autocomplete="off" placeholder="you@example.com">
+        <p class="hint">Only used to guess usernames you might have. It is never sent anywhere.</p>
+
+        <label class="check">
+          <input id="include-adult" type="checkbox" checked>
+          Include adult sites
+        </label>
+
+        <button type="submit">Start</button>
+        <p class="error" id="start-error" role="alert" hidden></p>
+      </form>
+
+      <aside class="privacy">
+        <strong>Runs on your computer.</strong>
+        Your usernames go only to the sites being checked, from your own connection.
+        Nothing is uploaded, stored, or shared.
+      </aside>
+    </section>
+
+    <section id="scanning" hidden>
+      <h2>Checking sites&hellip;</h2>
+      <progress id="progress" max="1" value="0"></progress>
+      <p id="progress-text" class="hint">Starting&hellip;</p>
+      <ul id="live-hits" class="chips" aria-live="polite"></ul>
+      <p class="error" id="scan-error" role="alert" hidden></p>
+    </section>
+
+    <section id="choose" hidden>
+      <h2>Which of these are you?</h2>
+      <p>
+        Mark at least one account you know is yours. whoseeme follows what links back to it
+        &mdash; the same picture, links between bios, the same name. Leave the rest as
+        <em>Not sure</em>; the ones that connect to you will be picked up.
+      </p>
+      <label for="filter" class="filter-label">Find a site</label>
+      <input id="filter" type="search" autocomplete="off" spellcheck="false"
+             placeholder="e.g. github" aria-controls="choices">
+      <p id="choice-count" class="hint"></p>
+      <div id="choices"></div>
+      <div class="actions">
+        <button id="build" disabled>Build my report</button>
+        <button id="restart-choose" class="secondary" type="button">Start over</button>
+      </div>
+      <p class="error" id="choose-error" role="alert" hidden></p>
+    </section>
+
+    <section id="report" hidden>
+      <h2>What a stranger could link to you</h2>
+      <p id="summary"></p>
+      <p id="avatar-note" class="hint" hidden>
+        Avatar matching was unavailable, so reused profile pictures couldn't be detected.
+      </p>
+
+      <h3>Findings</h3>
+      <div id="findings"></div>
+
+      <div id="links-block" hidden>
+        <h3>How your accounts connect</h3>
+        <table id="links"></table>
+      </div>
+
+      <h3>Your accounts</h3>
+      <table id="accounts"></table>
+
+      <div id="unconfirmed-block" hidden>
+        <h3>Found under your username, not linked to you</h3>
+        <p class="hint">These share a username with you, but nothing ties them to your accounts.
+          They may belong to other people.</p>
+        <table id="unconfirmed"></table>
+      </div>
+
+      <div class="actions">
+        <a id="download-html" class="button" download>Download report (HTML)</a>
+        <a id="download-json" class="button secondary" download>Download data (JSON)</a>
+        <button id="restart-report" class="secondary" type="button">Start over</button>
+      </div>
+      <p class="hint credit">Deletion guidance from
+        <a href="https://github.com/jdm-contrib/jdm" rel="noopener noreferrer" target="_blank">JustDeleteMe</a>.</p>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

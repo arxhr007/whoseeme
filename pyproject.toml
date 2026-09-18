@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "whoseeme"
+version = "0.1.0"
+description = "See what a stranger could link to you: a private, local audit of your own online accounts"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Aaron Thomas (arxhr007)" }]
+keywords = ["privacy", "digital-footprint", "self-audit", "osint", "security"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+dependencies = [
+    # The scanning and correlation engine. [correlate] brings Pillow, which
+    # avatar matching needs; without it, reused avatars cannot be detected.
+    # 2.5 fixes correlation chaining every profile through one @mention.
+    "aliens-eye[correlate]>=2.5,<3",
+    # Declared directly: server.py uses aiohttp.web (AppKey needs 3.9), not just
+    # what aliens-eye uses.
+    "aiohttp>=3.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+    "build",
+    "twine",
+]
+
+[project.scripts]
+whoseeme = "whoseeme.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/arxhr007/whoseeme"
+Repository = "https://github.com/arxhr007/whoseeme"
+Issues = "https://github.com/arxhr007/whoseeme/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/whoseeme"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/whoseeme", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src"]
